@@ -13,3 +13,20 @@ my_robot:
     type: effort_controllers/JointPositionController
     joint: joint_2
     pid: {p: 10.0, i: 0.1, d: 1.0}
+
+  joint_trajectory_controller:
+    type: effort_controllers/JointTrajectoryController
+    joints:
+      - joint_1
+      - joint_2
+    gains:
+      joint_1: {p: 10.0, i: 0.1, d: 1.0}
+      joint_2: {p: 10.0, i: 0.1, d: 1.0}
+    constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+      joint_1: {trajectory: 0.1, goal: 0.1}
+      joint_2: {trajectory: 0.1, goal: 0.1}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  25
+    action_monitor_rate: 10
