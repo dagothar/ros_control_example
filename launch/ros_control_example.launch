@@ -1,0 +1,26 @@
+<launch>
+  
+  <!-- launch the robot 'driver' -->
+  <node name="my_robot" pkg="ros_control_example" type="my_robot_node" output="screen"/>
+
+  <!-- load the robot description -->
+  <param name="robot_description" command="cat $(find ros_control_example)/description/my_robot.urdf"/>
+  
+  <!-- load the controller parameters -->
+  <rosparam file="$(find ros_control_example)/config/controllers.yaml" command="load"/>
+
+  <!-- load the controllers -->
+  <node
+    name="controller_spawner"
+    pkg="controller_manager"
+    type="spawner"
+    respawn="false"
+    output="screen"
+    ns="/my_robot"
+    args="joint_state_controller joint_1_position_controller joint_2_position_controller"
+  />
+  
+  <!-- show visualization in rqt_gui -->
+  <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui" args="--perspective-file $(find ros_control_example)/rqt/ros_control_example.perspective"/>
+
+</launch>
